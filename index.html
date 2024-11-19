@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <title>Rock Paper Scissor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>Rock Paper Scissor</h1>
+    <div class="images">
+      <div class="img" id="Paper">
+        <img src="assets/paper.png" />
+      </div>
+      <div class="img" id="Rock">
+        <img src="assets/rock.png" />
+      </div>
+      <div class="img" id="Scissor">
+        <img src="assets/scissors.png" />
+      </div>
+    </div>
+
+    <div class="score">
+      <p id="YourScore">Your Score: <span id="yourscore"></span></p>
+      <p id="CompScore">Comp Score: <span id="compscore"></span></p>
+    </div>
+    <div class="msg">
+        
+    </div>
+  </body>
+  <script>
+    const YourGuess = 0;
+    const CompGuess = 0;
+    const YourScore = document.querySelector("#yourscore")
+    const CompScore = document.querySelector("#compscore")
+    const msg = document.querySelector('.msg')
+    var y = 0;
+    var c = 0;
+    const choices = document.querySelectorAll(".img");
+    const genCompChoice = () => {
+      const choices = ["Rock", "Paper", "Scissor"];
+      const randIdx = Math.floor(Math.random() * 3);
+      return choices[randIdx];
+    };
+    const ShowWinner = (userWin,compChoice,userChoice) => {
+      if (userWin) {
+        y++;
+        console.log("You Win");
+        YourScore.innerHTML = y
+        msg.innerHTML = (`You Win !!! ${userChoice} beats ${compChoice}`)
+        msg.style.color = "green"
+      }
+      else{
+        c++;
+        console.log("Computer Wins");
+        CompScore.innerHTML = c
+        msg.innerHTML = (`You lose !!! ${compChoice} beats ${userChoice}`)
+        msg.style.color = "red"
+
+      }
+    };
+    const playGame = (userChoice) => {
+      console.log("User Choice = ", userChoice);
+      let compChoice = genCompChoice();
+      console.log("Computer Choice = ", compChoice);
+      if (userChoice === compChoice)
+      {
+        msg.innerHTML = "DRAW"
+      }
+      else {
+        let userWin = true;
+        if (userChoice === "Rock") {
+          userWin = compChoice === "Paper" ? false : true;
+        } else if (userChoice === "Paper") {
+          userWin = compChoice === "Scissor" ? false : true;
+        } else if (userChoice === "Scissor") {
+          userWin = compChoice === "Rock" ? false : true;
+        }
+        ShowWinner(userWin,compChoice,userChoice);
+      }
+    };
+
+    choices.forEach((choice) => {
+      choice.addEventListener("click", () => {
+        const userChoice = choice.getAttribute("id");
+
+        playGame(userChoice);
+      });
+    });
+  </script>
+</html>
